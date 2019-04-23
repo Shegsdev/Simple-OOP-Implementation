@@ -2,7 +2,7 @@ const EventEmitter = require('events');
 
 // The 'extends' keyword is a way to inherit from
 // one or more parent class.
-class Animal extends EventEmitter {
+class Position extends EventEmitter {
   constructor(type) {
     super();
     this._type = type;
@@ -13,9 +13,11 @@ class Animal extends EventEmitter {
   }
 }
 
-class Dog extends Animal {
-  constructor(type) {
+class Employer extends Position {
+  constructor(name, type) {
     super(type);
+
+    this._name = name;
   }
 
   // Here is an example of Polymorphism.
@@ -24,18 +26,28 @@ class Dog extends Animal {
   ** same name as the super class name.
   */
   get() {
-    return `I am a ${this.constructor.name} of type ${super.get()}`;
+    return `I am an ${this.constructor.name}`;
+  }
+
+  getStatus() {
+    return 'Employed';
+  }
+}
+
+class Employee extends Employer {
+  constructor(name, type) {
+    super(name, type)
   }
 }
 
 // Creates new instance of Dog class
-const mastiff = new Dog('mastiff');
+const steve = new Employer('Steve');
 
 // Register an event
-mastiff.on('bark', () => {
-  console.log('Woof!');
+steve.on('call', function() {
+  console.log(`${this._name} - ${this.getStatus()}`);
 });
 
 // Here's an implementation of Abstraction
-mastiff.emit('bark'); // Woof!
-console.log(mastiff.get()); // I am a Dog of type mastiff
+steve.emit('call');
+console.log(steve.get());
